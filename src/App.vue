@@ -1,8 +1,17 @@
 <template>
   <div class="main">
-    <Navigation v-on:add-city="toggleModal" v-on:edit-city="toggleEdit" />
+    <Navigation
+      v-on:add-city="toggleModal"
+      v-on:edit-city="toggleEdit"
+      :addCityActive="addCityActive"
+    />
     <Modal v-if="modalOpen" v-on:close-modal="toggleModal" :APIkey="APIkey" />
-    <router-view :cities="cities" :edit="edit" />
+    <router-view
+      :cities="cities"
+      :edit="edit"
+      @is-day="dayTime"
+      @is-night="nightTime"
+    />
   </div>
 </template>
 
@@ -20,10 +29,13 @@ export default {
   },
   data() {
     return {
-      APIkey: "fd88d33d2619b7cf1ac90de8c3991d52",
+      isDay: null,
+      isNight: null,
+      APIkey: null,
       cities: [],
       modalOpen: null,
-      edit: null
+      edit: null,
+      addCityActive: null
     };
   },
   methods: {
@@ -68,10 +80,30 @@ export default {
           }
         });
       });
+    },
+    checkRoute() {
+      if (this.$route.name === "AddCity") {
+        this.addCityActive = true;
+      } else {
+        this.addCityActive = false;
+      }
+    },
+    dayTime() {
+      this.isDay = !this.isDay;
+    },
+    nightTime() {
+      this.isNight = !this.isNight;
+    }
+  },
+  watch: {
+    $route() {
+      this.checkRoute();
     }
   },
   created() {
+    this.APIkey = process.env.VUE_APP_openWeatherAPIkey;
     this.getCityWeather();
+    this.checkRoute();
   }
 };
 </script>

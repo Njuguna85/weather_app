@@ -20,11 +20,13 @@ import db from "@/firebase/firebase.js";
 export default {
   name: "Modal",
   props: ["APIkey"],
+  emits: ["close-modal"],
   data() {
     return {
       city: ""
     };
   },
+  inject: ["APIkey"],
   methods: {
     closeModal(e) {
       if (e.target === this.$refs.modal) {
