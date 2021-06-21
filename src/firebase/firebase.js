@@ -1,13 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+import creds from "./firebaseCred.json";
 
 var firebaseConfig = {
-  apiKey: "AIzaSyCH1MHbgYtOR9LvvrQ1ST0PzUUzzgYBeqI",
-  authDomain: "weatherapk-a1b5c.firebaseapp.com",
-  projectId: "weatherapk-a1b5c",
-  storageBucket: "weatherapk-a1b5c.appspot.com",
-  messagingSenderId: "992975417914",
-  appId: "1:992975417914:web:a9462e7518ad3eb3113b03"
+  ...creds
 };
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
